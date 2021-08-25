@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Slider from '@react-native-community/slider'
 
+//Helpers import
+
+import {TIME_CONVERTER} from './FNS/functions';
+
 //Variables
 
 const sliderMin = 0
 const sliderMax = 1440
-const sliderStep = 0
 
 export default function App() {
 
@@ -18,23 +21,39 @@ export default function App() {
   const enableScroll = () => this.setState({ scrollEnabled: true });
   const disableScroll = () => this.setState({ scrollEnabled: false });
 
-  const sliderValue = (sliderValue) => {
-    setOverTime(sliderValue)
+  const sliderOneValue = (sliderValue) => {
+    setStartTime(sliderValue)
+  }
+
+  const sliderTwoValue = (sliderValue) => {
+    setEndTime(sliderValue)
   }
 
   return (
     <ScrollView style={styles.container}>
 
-      <Text>{overTime}</Text>      
+      <Text>Start time:{TIME_CONVERTER(startTime)}</Text>    
+      <Text>End time:{TIME_CONVERTER(endTime)}</Text>    
       <View style={styles.sliderContainer}>
 
         <Slider 
+          style={styles.slider}
           minimumValue={sliderMin}
           maximumValue={sliderMax}
-          minimumTrackTintColor="#fff"
-          maximumTrackTintColor="#000000"
-          onValueChange={sliderValue}
-          vertical={true}
+          minimumTrackTintColor="red"
+          maximumTrackTintColor="green"
+          onValueChange={sliderOneValue}
+          vertical='true'
+        />
+
+        <Slider 
+          style={styles.slider}
+          minimumValue={startTime}
+          maximumValue={sliderMax}
+          minimumTrackTintColor="green"
+          maximumTrackTintColor="red"
+          onValueChange={sliderTwoValue}
+          vertical='true'
         />
 
       </View>
@@ -48,16 +67,18 @@ const styles = StyleSheet.create({
     padding: 50,
     flex: 1,
     backgroundColor: 'white',
-    alignContent:'center',
-    
-
+    alignContent:'center',  
   },
   sliderContainer: {
-
     borderWidth:1,
+    marginTop:30,
   },
   text: {
     marginTop:30,
     fontSize:20,
+  },
+  slider: {
+    marginTop:20,
+    marginBottom:20,
   }
 });
