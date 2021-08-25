@@ -31,7 +31,7 @@ export default function App() {
         <Slider 
           minimumValue={sliderMin}
           maximumValue={sliderMax}
-          minimumTrackTintColor="#FF000"
+          minimumTrackTintColor="#fff"
           maximumTrackTintColor="#000000"
           onValueChange={sliderValue}
           vertical={true}
