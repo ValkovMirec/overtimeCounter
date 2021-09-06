@@ -16,8 +16,9 @@ export default function App() {
   const[startTime, setStartTime] = useState(0)
   const[endTime, setEndTime] = useState(0)
   const[agreedWorkTime, setAgreedWorkTime] = useState(0)
+  const[hoursWorked, setHoursWorked] = useState(0)
   const[overTime, setOverTime] = useState(0)
-
+  
   const enableScroll = () => this.setState({ scrollEnabled: true });
   const disableScroll = () => this.setState({ scrollEnabled: false });
 
@@ -26,7 +27,14 @@ export default function App() {
   }
 
   const sliderTwoValue = (sliderValue) => {
+    let hoursWorkedRaw = endTime - startTime 
     setEndTime(sliderValue)
+    setHoursWorked(hoursWorkedRaw)
+  }
+
+  const endTimeValue = (start,end) => {
+    let hoursWorkedRaw = end - start 
+    setHoursWorked(hoursWorkedRaw)
   }
 
   return (
@@ -34,6 +42,7 @@ export default function App() {
 
       <Text>Start time:{TIME_CONVERTER(startTime)}</Text>    
       <Text>End time:{TIME_CONVERTER(endTime)}</Text>    
+      <Text>Hours worked:{TIME_CONVERTER(hoursWorked)}</Text>
       <View style={styles.sliderContainer}>
 
         <Slider 
@@ -43,7 +52,7 @@ export default function App() {
           minimumTrackTintColor="red"
           maximumTrackTintColor="green"
           onValueChange={sliderOneValue}
-          vertical='true'
+          vertical={true}
         />
 
         <Slider 
@@ -53,7 +62,7 @@ export default function App() {
           minimumTrackTintColor="green"
           maximumTrackTintColor="red"
           onValueChange={sliderTwoValue}
-          vertical='true'
+          vertical={true}
         />
 
       </View>
