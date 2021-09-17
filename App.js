@@ -4,7 +4,7 @@ import Slider from '@react-native-community/slider'
 
 //Helpers import
 
-import {TIME_CONVERTER, NEGATIVE_TIME_HANDLER} from './FNS/functions';
+import {TIME_CONVERTER} from './FNS/functions';
 
 //Variables
 
@@ -68,11 +68,11 @@ export default function App() {
         keyboardType="number-pad"
       />
 
-      {!setAgreedWorkTime? <Text>Agreed WT:00:00</Text>:<Text>{TIME_CONVERTER(agreedWorkTime)}</Text>}
+      {!agreedWorkTime? <Text>Agreed WT:01:00</Text>:<Text>Agreed WT{TIME_CONVERTER(agreedWorkTime)}</Text>}
       <Text>Start time:{TIME_CONVERTER(startTime)}</Text>    
       <Text>End time:{TIME_CONVERTER(endTime)}</Text>    
       <Text>Hours worked:{TIME_CONVERTER(hoursWorked)}</Text>
-      <Text>Overtime:{NEGATIVE_TIME_HANDLER(overTime)}</Text>
+      <Text>Overtime:{TIME_CONVERTER(overTime)}</Text>
       <View style={styles.sliderContainer}>
 
         <Slider 
