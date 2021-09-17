@@ -4,7 +4,7 @@ import Slider from '@react-native-community/slider'
 
 //Helpers import
 
-import {TIME_CONVERTER} from './FNS/functions';
+import {TIME_CONVERTER, NEGATIVE_TIME_HANDLER} from './FNS/functions';
 
 //Variables
 
@@ -43,7 +43,7 @@ export default function App() {
   const onChangeWorkingHours = (inputValue) => {
     let totalMinutes = parseInt(inputValue)*60
     setAgreedWorkTime(totalMinutes)
-    console.log(agreedWorkTime)
+
 
     if (isNaN(inputValue)) {
       //if input is not a number then here
@@ -63,15 +63,16 @@ export default function App() {
         type='text'
         onChangeText={onChangeWorkingHours}
         defaultValue='1'
+        maximumValue='20'
         placeholder="Type in how many hours you work"
         keyboardType="number-pad"
       />
 
-      <Text>Agreed WT:{TIME_CONVERTER(agreedWorkTime)}</Text>
+      {!setAgreedWorkTime? <Text>Agreed WT:00:00</Text>:<Text>{TIME_CONVERTER(agreedWorkTime)}</Text>}
       <Text>Start time:{TIME_CONVERTER(startTime)}</Text>    
       <Text>End time:{TIME_CONVERTER(endTime)}</Text>    
       <Text>Hours worked:{TIME_CONVERTER(hoursWorked)}</Text>
-      <Text>Overtime:{TIME_CONVERTER(overTime)}</Text>
+      <Text>Overtime:{NEGATIVE_TIME_HANDLER(overTime)}</Text>
       <View style={styles.sliderContainer}>
 
         <Slider 
@@ -93,8 +94,6 @@ export default function App() {
           onValueChange={sliderTwoValue}
           vertical={true}
         />
-
-        <Text> {TIME_CONVERTER(agreedWorkTime)} </Text>
 
       </View>
 
