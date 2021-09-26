@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, Button } from 'react-native';
+import { StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Slider from '@react-native-community/slider'
 
-//Helpers import
+//Modules import 
 
-import {TIME_CONVERTER} from './FNS/functions';
+import OpeningScreen from './MODULES/OpeningScreen';
+import MainScreen from './MODULES/MainScreen';
 
-//Variables
+//Window size 
 
-const sliderMin = 0
-const sliderMax = 1440
+const windowWidth = Dimensions.get('window').width
+const windowHeigth = Dimensions.get('window').height
 
 export default function App() {
 
@@ -18,10 +19,9 @@ export default function App() {
   const[agreedWorkTime, setAgreedWorkTime] = useState(0)
   const[hoursWorked, setHoursWorked] = useState(0)
   const[overTime, setOverTime] = useState(0)
-  
-  const enableScroll = () => this.setState({ scrollEnabled: true });
-  const disableScroll = () => this.setState({ scrollEnabled: false });
-  
+ 
+  //Button,input handlers
+ 
   const sliderOneValue = (sliderValue) => {
     setStartTime(sliderValue)
   }
@@ -45,73 +45,37 @@ export default function App() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.mainContainer}>
 
-      <Text>Agreed work time:</Text>
-      <TextInput
-        style={styles.numInput}
-        type='number'
-        onTextChange={onChangeWorkingHours}
-        defaultValue='1'
-        placeholder="Type in how many hours you work"
-        keyboardType="number-pad"
-      />
-
-      <Text>Agreed WT:{TIME_CONVERTER(agreedWorkTime)}</Text>
-      <Text>Start time:{TIME_CONVERTER(startTime)}</Text>    
-      <Text>End time:{TIME_CONVERTER(endTime)}</Text>    
-      <Text>Hours worked:{TIME_CONVERTER(hoursWorked)}</Text>
-      <Text>Overtime:{TIME_CONVERTER(overTime)}</Text>
-      <View style={styles.sliderContainer}>
-
-        <Slider 
-          style={styles.slider}
-          minimumValue={sliderMin}
-          maximumValue={sliderMax}
-          minimumTrackTintColor="red"
-          maximumTrackTintColor="green"
-          onValueChange={sliderOneValue}
-          vertical={true}
-        />
-
-        <Slider 
-          style={styles.slider}
-          minimumValue={startTime}
-          maximumValue={sliderMax}
-          minimumTrackTintColor="green"
-          maximumTrackTintColor="red"
-          onValueChange={sliderTwoValue}
-          vertical={true}
-        />
-
-        <Text> {agreedWorkTime} </Text>
-
-      </View>
-
+      {!agreedWorkTime? 
+      <OpeningScreen
+        agreedWorkTime={agreedWorkTime}
+        setAgreedWorkTime={setAgreedWorkTime}
+        windowHeigth={windowWidth}
+        windowHeigth={windowHeigth}
+      /> : 
+      <MainScreen
+        agreedWorkTime={agreedWorkTime}
+        startTime={startTime}
+        endTime={endTime}
+        hoursWorked={hoursWorked}
+        overTime={overTime}
+        sliderOneValue={sliderOneValue}
+        sliderTwoValue={sliderTwoValue}
+        windowHeigth={windowWidth}
+        windowHeigth={windowHeigth}
+      />}
+    
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 50,
+  mainContainer: {
     flex: 1,
     backgroundColor: 'white',
     alignContent:'center',  
-  },
-  sliderContainer: {
-    borderWidth:1,
-    marginTop:30,
-  },
-  text: {
-    marginTop:30,
-    fontSize:20,
-  },
-  slider: {
-    marginTop:20,
-    marginBottom:20,
-  },
-  numInput: {
-    backgroundColor:'red',
+    height:windowHeigth,
+    width:windowWidth
   }
 });
