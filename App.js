@@ -21,6 +21,13 @@ export default function App() {
   const[overTime, setOverTime] = useState(0)
  
   //Button,input handlers
+
+  const endTimeValue = (start,end) => {
+    let hoursWorkedRaw = end - start 
+    setHoursWorked(hoursWorkedRaw)
+    let overtime = hoursWorked-agreedWorkTime
+    setOverTime(overtime)
+  }
  
   const sliderOneValue = (sliderValue) => {
     setStartTime(sliderValue)
@@ -30,18 +37,21 @@ export default function App() {
     let hoursWorkedRaw = endTime - startTime 
     setEndTime(sliderValue)
     setHoursWorked(hoursWorkedRaw)
+    endTimeValue(startTime,endTime)
   }
 
   const onChangeWorkingHours = (inputValue) => {
-    let totalMinutes = inputValue*60
+    let totalMinutes = parseInt(inputValue)*60
     setAgreedWorkTime(totalMinutes)
-  }
 
-  const endTimeValue = (start,end) => {
-    let hoursWorkedRaw = end - start 
-    setHoursWorked(hoursWorkedRaw)
-    let overtime = hoursWorked-agreedWorkTime
-    setOverTime(overtime)
+
+    if (isNaN(inputValue)) {
+      //if input is not a number then here
+      console.log('It is not a Number');
+    } else {
+      //if input is number then here
+      console.log('It is a Number');
+    }
   }
 
   return (
